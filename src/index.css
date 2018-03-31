@@ -1,5 +1,17 @@
 body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    font-family: 'Courier New', Courier, monospace;
+    /* background-image: linear-gradient(90deg, #89f7fe 0%, #66a6ff 100%); */
+    /* background-image: linear-gradient(90deg, #fdfcfb 0%, #e2d1c3 100%); */
+    /* background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%); */
+    /* background-image: linear-gradient(to right, #92fe9d 0%, #00c9ff 100%); */
+    background: #C9FFBF;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to left, #FFAFBD, #C9FFBF);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #FFAFBD, #C9FFBF); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+
+button {
+    cursor: pointer;
 }
