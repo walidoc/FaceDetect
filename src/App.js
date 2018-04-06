@@ -81,30 +81,32 @@ class App extends Component {
             .catch(err => console.log('err', err));
    }
 
-   onRouteChange = (route) => {
-       this.setState({route: route});
-   }
+    onRouteChange = (route) => {
+        this.setState({route: route});
+    }
 
     render() {
+        const { route, box, imageUrl } = this.state;
         return (
             <div className="App">
                 <Particles className='particles' 
                     params={particlesOptions}
                 />
-                <Navigation onSignout={this.onRouteChange}/>
-                {   this.state.route === 'home'
+                
+                {   route === 'home'
                     ?   <div>
+                            <Navigation onSignout={() => this.onRouteChange('signin')}/>
                             <Logo />
                             <Rank />
                             <ImageLinkForm 
                                 onInputChange={this.onInputChange} 
                                 onButtonSubmit={this.onButtonSubmit} 
                             />
-                            <FaceRecognition box={this.state.box} imageUrl={this.state.imageUrl} /> 
+                            <FaceRecognition box={box} imageUrl={imageUrl} /> 
                         </div>
-                    :   (   this.state.route === 'signin'
+                    :   (   route === 'signin'
                             ?   <Signin onRouteChange={this.onRouteChange} /> 
-                            :    <Register onRouteChange={this.onRouteChange} /> 
+                            :   <Register onRouteChange={this.onRouteChange} /> 
                         )
                      
                 }

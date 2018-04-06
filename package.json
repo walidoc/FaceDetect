@@ -1,5 +1,5 @@
 {
-  "name": "FaceRecognitionBrain",
+  "name": "FaceDetect",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
