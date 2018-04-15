@@ -1,25 +1,39 @@
 
-exports.login = function(req, res, next){
- 
-    res.status(200).send('login is working!')
- 
+exports.signin = (req, res, next) => {
+
+    const { email, password } = req.body;
+
+    if( email == 'walid@gmail.com' && password == 'walid') {
+        let user = {
+            email: email,
+            name: 'walid',
+            entries: 5
+        }
+        res.status(200).json(user);
+
+    }
+    
 }
  
 exports.register = function(req, res, next){
 
-    const { username, password } = req.body;
-
+    const { email, password, name } = req.body;
  
-    if(!username){
-        return res.status(422).send({error: 'You must enter a username address'});
+    if(!email){
+        return res.status(422).send({error: 'You must enter a email '});
     }
  
     if(!password){
         return res.status(422).send({error: 'You must enter a password'});
     }
  
-    res.status(200).send('signup is working!');
- 
- 
+    let user = {
+        email,
+        password,
+        name
+    }
+
+    res.status(200).json(user);
+
 }
  

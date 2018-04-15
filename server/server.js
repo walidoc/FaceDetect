@@ -4,7 +4,8 @@ const logger = require('morgan');
 const bodyParser = require('body-parser');
 const cors = require('cors');
  
- 
+const router = require('./app/routes');
+
 app.listen(process.env.PORT || 8080);
 console.log("App listening on port 8080");
  
