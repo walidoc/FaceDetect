@@ -14,11 +14,12 @@ module.exports = function(app){
  
     authRoutes.post('/register', AuthenticationController.register);
     authRoutes.post('/signin', AuthenticationController.signin);
-    
+    authRoutes.get('/profile/:id', AuthenticationController.profile);
+
     // Image Routes
     apiRoutes.use('/image', imageRoutes);
 
-    imageRoutes.put(ImageController.increment)
+    imageRoutes.post('/:id', ImageController.increment)
 
     // Set up routes
     app.use('/api', apiRoutes);
