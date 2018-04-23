@@ -1,7 +1,9 @@
 const bcrypt = require('bcrypt-nodejs')
+
 const db = require('../../config/database')
- 
-exports.register = function(req, res, next){
+
+
+exports.register = (req, res, next) => {
     const { email, password, name } = req.body;
     
     if(!email){
@@ -13,30 +15,52 @@ exports.register = function(req, res, next){
 
     const hash = bcrypt.hashSync(password);
     
-    db('users')
-        .returning('*')
-        .insert({
-            email: email,
-            name: name,
-            joined: new Date()
+    db.transaction(trx => {
+        trx.insert({
+            password: hash,
+            email: email
         })
-        .then(user => {
-            res.status(200).json(user[0]);
+        .into('login')
+        .returning('email')
+        .then(loginEmail => {
+            return trx('users')
+                    .returning('*')
+                    .insert({
+                        email: email,
+                        name: name,
+                        joined: new Date()
+                    })
+                    .then(user => {
+                        res.status(200).json(user[0]);
+                    })
         })
-        .catch( err => res.status(400).json("Unable to register"))
+        .then(trx.commit)
+        .catch(trx.rollback)
+    })
+    .catch(err => res.status(400).json('Unable to register'))
+        
 }
  
 exports.signin = (req, res, next) => {
     const { email, password } = req.body;
 
-    if( email == 'walid@gmail.com' && password == 'walid') {
-        let user = {
-            email: email,
-            name: 'walid',
-            entries: 5
-        }
-        res.status(200).json(user);
-    }
+    db.select('email', 'password')
+        .from('login')
+        .where('email', '=', email)
+        .then(credentials => {
+            const isValid = bcrypt.compareSync(password, credentials[0].password);
+            if(isValid){
+                return db.select('*').from('users')
+                .where('email', '=', email)
+                .then(user => {
+                    res.json(user[])
+                })
+                .catch(err => res.status(400).json('Unable to find user'))
+            } else {
+                res.status(400).json('wrong credentials')
+            }
+        })
+        .catch(err => res.status(400).json('wrong credentials'))
 }
 
 exports.profile = (req, res, next) => {
