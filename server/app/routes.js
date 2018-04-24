@@ -19,7 +19,7 @@ module.exports = function(app){
     // Image Routes
     apiRoutes.use('/image', imageRoutes);
 
-    imageRoutes.post('/:id', ImageController.increment)
+    imageRoutes.post('/', ImageController.increment)
 
     // Set up routes
     app.use('/api', apiRoutes);

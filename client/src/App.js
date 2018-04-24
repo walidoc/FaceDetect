@@ -26,7 +26,7 @@ const particlesOptions = {
             width: 1
           },
         number: {
-            value: 50,
+            value: 80,
             density: {
               enable: true,
               value_area: 800
@@ -99,7 +99,7 @@ class App extends Component {
             .then( response => {
                 if(response){
                     fetch('http://localhost:8080/api/image/', {
-                        method: 'put',
+                        method: 'post',
                         headers: {'Content-Type':'application/json'},
                         body: JSON.stringify({
                             id: this.state.user.id
@@ -107,7 +107,6 @@ class App extends Component {
                     })
                     .then(res => res.json())
                     .then(count => {
-                        // TODO : to fix the count in the future
                         this.setState(Object.assign(this.state.user, {entries: count}))
                     })
                 }

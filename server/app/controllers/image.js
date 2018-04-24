@@ -2,7 +2,7 @@ const db = require('../../config/database');
 
 exports.increment = (req, res, next) => {
 
-    const { id } = req.params;
+    const { id } = req.body;
 
     db('users')
         .where('id', '=', id)

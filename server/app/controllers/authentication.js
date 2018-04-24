@@ -53,7 +53,7 @@ exports.signin = (req, res, next) => {
                 return db.select('*').from('users')
                 .where('email', '=', email)
                 .then(user => {
-                    res.json(user[])
+                    res.json(user[0])
                 })
                 .catch(err => res.status(400).json('Unable to find user'))
             } else {
