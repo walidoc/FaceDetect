@@ -3,14 +3,11 @@ const bcrypt = require('bcrypt-nodejs')
 const db = require('../../config/database')
 
 
-exports.register = (req, res, next) => {
+exports.register = (req, res) => {
     const { email, password, name } = req.body;
     
-    if(!email){
-        return res.status(422).send({error: 'You must enter a email '});
-    }
-    if(!password){
-        return res.status(422).send({error: 'You must enter a password'});
+    if(!email || !password || !name){
+        return res.status(400).json('Incorrect form submission');
     }
 
     const hash = bcrypt.hashSync(password);
@@ -41,9 +38,13 @@ exports.register = (req, res, next) => {
         
 }
  
-exports.signin = (req, res, next) => {
+exports.signin = (req, res) => {
     const { email, password } = req.body;
 
+    if(!email || !password){
+        return res.status(400).json('Incorrect form submission');
+    }
+    
     db.select('email', 'password')
         .from('login')
         .where('email', '=', email)
@@ -63,7 +64,7 @@ exports.signin = (req, res, next) => {
         .catch(err => res.status(400).json('wrong credentials'))
 }
 
-exports.profile = (req, res, next) => {
+exports.profile = (req, res) => {
     const { id } = req.params;
 
     db.select('*').from('users')

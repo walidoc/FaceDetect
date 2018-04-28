@@ -19,7 +19,8 @@ module.exports = function(app){
     // Image Routes
     apiRoutes.use('/image', imageRoutes);
 
-    imageRoutes.post('/', ImageController.increment)
+    imageRoutes.post('/increment', ImageController.increment)
+    imageRoutes.post('/clarifaiCall', ImageController.clarifaiCall)
 
     // Set up routes
     app.use('/api', apiRoutes);
