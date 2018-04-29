@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Navigation from "../components/Navigation/Navigation";
 import ImageLinkForm from "../components/ImageLinkForm/ImageLinkForm";
 import FaceRecognition from "../components/FaceRecognition/FaceRecognition";
-import Logo from "../components/Logo/Logo";
 import Rank from "../components/Rank/Rank";
 import Signin from "../components/Signin/Signin";
 import Register from "../components/Register/Register";
@@ -21,7 +20,7 @@ const particlesOptions = {
             width: 1
           },
         number: {
-            value: 80,
+            value: 150,
             density: {
               enable: true,
               value_area: 800
@@ -33,7 +32,7 @@ const particlesOptions = {
 const initialState = {
     input: '',
     imageUrl: '',
-    box: {},
+    boxes: [],
     route: 'signin',
     user: {
         id: '',
@@ -62,9 +61,17 @@ class App extends Component {
         })
     }
 
-    calculateFaceLocation = (data) => {
-        const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
+    calculateFacesLocations = (data) => {
         const image = document.getElementById('inputImage');
+        const clarifaiFaces = data.outputs[0].data.regions;
+        const boxes = [];
+        for(let i = 0; i < clarifaiFaces.length; i++){
+            let clarifaiFace = clarifaiFaces[i].region_info.bounding_box;
+            boxes.push(this.calculateFaceLocation(clarifaiFace, image));
+        }
+        return boxes;
+    }
+    calculateFaceLocation = (clarifaiFace, image) => {
         const width = Number(image.width);
         const height = Number(image.height);
         return {
@@ -75,8 +82,8 @@ class App extends Component {
         }
     }
 
-    displayFaceBox = (box) => {
-        this.setState({box});
+    displayFaceBox = (boxes) => {
+        this.setState({boxes});
     }
 
     onInputChange = (event) => {
@@ -112,8 +119,8 @@ class App extends Component {
                 })
                 .catch(console.log)
             }
-
-            this.displayFaceBox(this.calculateFaceLocation(response))
+            
+            this.displayFaceBox(this.calculateFacesLocations(response))
         })
         .catch(err => console.log('err', err));
    }
@@ -126,7 +133,7 @@ class App extends Component {
     }
 
     render() {
-        const { route, box, imageUrl, user } = this.state;
+        const { route, boxes, imageUrl, user } = this.state;
         return (
             <div className="App">
                 <Particles className='particles' 
@@ -136,13 +143,13 @@ class App extends Component {
                 {   route === 'home'
                     ?   <div>
                             <Navigation onSignout={() => this.onRouteChange('signin')}/>
-                            <Logo />
+                            
                             <Rank name={user.name} entries={user.entries} />
                             <ImageLinkForm 
                                 onInputChange={this.onInputChange} 
                                 onPictureSubmit={this.onPictureSubmit} 
                             />
-                            <FaceRecognition box={box} imageUrl={imageUrl} /> 
+                            <FaceRecognition boxes={boxes} imageUrl={imageUrl} /> 
                         </div>
                     :   (   route === 'signin'
                             ?   <Signin loadUser={this.loadUser} onRouteChange={this.onRouteChange} /> 
