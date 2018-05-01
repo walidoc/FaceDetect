@@ -23,7 +23,7 @@ class Register extends Component {
     }
 
     onSubmitRegister = () => {
-        fetch('http://localhost:8080/api/auth/register', {
+        fetch('https://face-detect-api.herokuapp.com/api/auth/register', {
             method: 'post',
             headers: {'Content-Type':'application/json'},
             body: JSON.stringify({

@@ -96,7 +96,7 @@ class App extends Component {
         this.setState({
             imageUrl: this.state.input
         })
-        fetch('http://localhost:8080/api/image/clarifaiCall', {
+        fetch('https://face-detect-api.herokuapp.com/api/image/clarifaiCall', {
             method: 'post',
             headers: {'Content-Type':'application/json'},
             body: JSON.stringify({
@@ -106,7 +106,7 @@ class App extends Component {
         .then(res => res.json())
         .then( response => {
             if(response){
-                fetch('http://localhost:8080/api/image/increment', {
+                fetch('https://face-detect-api.herokuapp.com/api/image/increment', {
                     method: 'post',
                     headers: {'Content-Type':'application/json'},
                     body: JSON.stringify({

@@ -7,7 +7,7 @@ const cors = require('cors');
 const router = require('./app/routes');
 
 app.listen(process.env.PORT || 8080);
-console.log("App listening on port 8080");
+console.log(`App listening on port ${process.env.PORT}`);
  
 app.use(bodyParser.urlencoded({ extended: false })); // Parses urlencoded bodies
 app.use(bodyParser.json()); // Send JSON responses
