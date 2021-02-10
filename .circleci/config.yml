@@ -5,6 +5,16 @@ orbs:
   welcome: circleci/welcome-orb@0.4.1
 # Orchestrate or schedule a set of jobs
 jobs:
+  print_my_name:
+    environment:
+        MY_NAME: walidoc 
+    docker: 
+      - image: circleci/node:13.8.0
+    steps:
+      - run:
+          command: |
+            echo $MY_NAME
+
   print_hello:
     docker: 
       - image: circleci/node:13.8.0
@@ -26,6 +36,7 @@ workflows:
     # Run the welcome/run job in its own container
     jobs:
       - welcome/run
+      - print_my_name
       - print_hello
       - print_world:
           requires:
