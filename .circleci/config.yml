@@ -12,7 +12,7 @@ jobs:
       - run:
           name: walidoc
           command: |
-            echo $name
+            echo $MY_ENV_VAR
 
   print_hello:
     docker: 
