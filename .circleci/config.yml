@@ -6,14 +6,13 @@ orbs:
 # Orchestrate or schedule a set of jobs
 jobs:
   print_my_name:
-    environment:
-        MY_NAME: walidoc 
     docker: 
       - image: circleci/node:13.8.0
     steps:
       - run:
+          name: walidoc
           command: |
-            echo $MY_NAME
+            echo $name
 
   print_hello:
     docker: 
