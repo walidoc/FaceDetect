@@ -2,19 +2,22 @@ version: 2.1
 
 commands:
   print_pipeline_id:
-    description: "A very simple command for demonstration purposes"
+    parameters:
+      id: 
+        type: string
     steps:
-      - run: echo $CIRCLE_WORKFLOW_ID
+      - run: echo << parameters.id >>
 
 jobs:
-  print_pipline_infos:
+  my_job:
     docker:
       - image: circleci/node:13.8.0
     steps:
-      - print_pipeline_id
+      - print_pipeline_id:
+          id: << pipeline.id >>
 
 workflows:
   my_workflow:
     jobs:
-      - print_pipline_infos
+      - my_job
 
