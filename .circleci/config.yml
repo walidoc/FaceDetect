@@ -15,7 +15,7 @@ jobs:
     steps:
       - checkout
       - persist_to_workspace:
-          root: /client/public
+          root: ~/client/public
           paths:
             - output.txt
       - run:
@@ -28,7 +28,7 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: /client/public
+          at: ~/client/public
       - run:
           command: |
             cat output.txt
